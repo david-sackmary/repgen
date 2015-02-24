@@ -1,0 +1,68 @@
+#!/usr/bin/python
+# We use these functions for crunching data
+
+from operator import itemgetter
+from collections import OrderedDict
+
+def get_server_csm_stats(server):
+    good = 0
+    bad = 0
+    indeterminate = 0
+# may not exist, use try/except to fail through
+    try:
+        deadvar = server.issues['sca']['findings']
+    except:
+        return({'good':good,
+                'bad':bad,
+                'indeterminate':indeterminate})
+    for issue in server.issues['sca']['findings']:
+        for entry in issue['details']:
+            if entry['status'] == 'bad':
+                bad += 1
+            elif entry['status'] == 'indeterminate':
+                indeterminate += 1
+            elif entry['status'] == 'good':
+                good += 1
+    retval = {'good':good,
+            'bad':bad,
+            'indeterminate':indeterminate}
+    return(retval)
+def get_server_sva_stats(server):
+    critical = 0
+    non_critical = 0
+    # Here if we can' set deadvar, it's assumed that there are no SVA results for that host.  So we fail through.
+    try:
+        deadvar = server.issues['svm']['findings']
+    except:
+        retval = {'critical':critical,'non_critical':non_critical}
+        return(retval)
+    for issue in server.issues['svm']['findings']:
+        if issue['status'] == 'bad':
+            if issue['critical'] == True:
+                critical += 1
+            elif issue['critical'] == False:
+                non_critical += 1
+    retval = {'critical':critical,
+            'non_critical':non_critical}
+    return(retval)
+
+def all_server_stats(servers):
+    all_cves = []
+    all_crit_pkgs = []
+    all_noncrit_pkgs = []
+    retval_cve = {}
+    retval_crit_pkg = {}
+    retval_noncrit_pkg = {}
+    for s in servers:
+        try:
+	    id = []
+            firewall = s.issues['firewall_policies']
+            print "dave"
+response.read().decode()response.read().decode()response.read().decode()
+            print firewall
+            print "dave"
+        except:
+            continue
+    return
+
+
