@@ -1,4 +1,4 @@
-halo-report-generator
+# halo-firewall-report
 =====================
 
 Generate HTML, PDF reports for CSM and SVA Halo modules
@@ -39,5 +39,3 @@ to create the list of servers that will be reported on.
 >Text is mainly for debugging and may not produce as much meaningful information as html or pdf.
 
 >HTML and PDF files are placed in the ./outfile folder.  If it doesn't exist, the script will fail.
-
-# halo-firewall-report
