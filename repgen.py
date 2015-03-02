@@ -23,6 +23,8 @@ def main(argv):
     serverolist = fn.build_server_list(config['host'], config['authtoken'], config['search_string'], config['search_field'], config['prox'])
     serverolist = fn.enrich_server_data(config['host'], config['authtoken'], serverolist, config['prox'])
 
+
+
 #    for s in serverolist:
 #        print s.issues
 
@@ -40,4 +42,5 @@ def main(argv):
     fn.handle_output(config, serverolist)
 
 if __name__ == "__main__":
+    print sys.argv[1:]
     main(sys.argv[1:])
