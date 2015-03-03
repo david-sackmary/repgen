@@ -86,7 +86,7 @@ def html(objex,prefix,formt,logo_url):
     summary_fw = str(generate_summary_content(firewall_summary))
     print "after summary"
     for s in objex:
-        server = generate_server_content(s)
+        server, fw = generate_server_content(s)
         complete_contents = complete_contents + str(str(server))
         
     
@@ -105,6 +105,7 @@ def generate_summary_content(firewall):
     return ret_firewall
 
 def generate_server_content(s):
+    mdown_fw = ''
     mdown_server = ''
     servername = s.name
     serverid= s.id
@@ -113,6 +114,13 @@ def generate_server_content(s):
     issues = s.issues #not sure if we need this
     
     mdown_server = mdown_server + '\n\n##Host Name: ' + str(servername) + '\n\n###Label:' + str(serverlabel) +'\n\n###Group' + str(servergroup)
-    return mdown_server
+    mdown_fw = mdown_fw + str(md_render_fw(details))
+    return mdown_server, mdown_fw
+
+
+def md_render_fw(d):
+    ret_md = ''
+    ret_md = ret_md + "\n\n###Firewall Policies: \n\n"
+    pass
 
     

@@ -32,13 +32,11 @@ def build_server_list(host, authtoken, srch, field, prox):
 
 def enrich_server_data(host, authtoken, slist, prox):
     returned_dataz = []
-    print "in enrich_server"
 
     for s in slist:     
         s.issues, s.details = get_firewall_policies(host, authtoken, s.id, prox)
         returned_dataz.append(s)
        
-    print "leave enrich_server"
     return(returned_dataz)
 
 def distil_server_list(jdata, prefix, field):
@@ -57,14 +55,12 @@ def get_firewall_policies(host,authtoken,node_id,prox):
     queryurl = '/v1/firewall_policies/'
     results = api.apihit(host, 'GET', authtoken, queryurl, '', prox)
     details_results = []
-    #print "in fn.py (get_firewall_policies)"
 
     for entry in results['firewall_policies']:
         detail_queryurl = ' /v1/firewall_policies/' + entry['id']
         details = api.apihit(host, 'GET', authtoken, detail_queryurl, '', prox)
         details_results.append(details)
     #print json.dumps(details_results, indent = 2)
-    #print "leaving fn.py(get_firewall_policies)"
     
     return results,details_results
 
