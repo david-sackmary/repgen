@@ -85,22 +85,17 @@ def html(objex,prefix,formt,logo_url):
     masthead_firewall = '#Firewall  Report\n##' + tstamp
     masthead_sva = '#Software Vulnerability Report\n##' + tstamp
     cve_summary, ncrit_pkg_summary, crit_pkg_summary = cruncher.all_server_stats(objex)
-    print "after cruncher"
     summary_content = str(generate_summary_content(cve_summary, ncrit_pkg_summary, crit_pkg_summary))
-    print "after summary"
 
     for s in objex:
         server, csm, firewall, sva = generate_server_content(s)
-
-        firewall_summary = cruncher.get_server_firewall_stats(objex)
-
-        complete_contents = complete_contents + str(str(server) + str(csm) + str(sva))
+        complete_contents = complete_contents + str(str(server) + str(csm) + str(firewall) + str(sva))
         csm_contents = csm_contents + str(str(server) + str(csm))
-        firewall_contents = firewall_contents + str(str(server) + str(csm))
+        firewall_contents = firewall_contents + str(str(server) + str(firewall))
         sva_contents = sva_contents + str(str(server) + str(sva))
     raw_reports['complete'] = str(logo + masthead_complete + str(summary_content) + str(complete_contents))
     raw_reports['csm'] =str(logo + masthead_csm + str(csm_contents))
-    raw_reports['firewall'] =str(logo + masthead_csm + str(firewall_contents))
+    raw_reports['firewall'] =str(logo + masthead_firewall + str(firewall_contents))
     raw_reports['sva'] = str(logo + masthead_sva + str(summary_content) + str(sva_contents))
     for rtype in ['complete', 'csm', 'firewall', 'sva']:
         file_name = prefix + '-' + rtype
@@ -108,21 +103,6 @@ def html(objex,prefix,formt,logo_url):
         html_content = str(head) + str(html_content_from_md) + str(closer)
         write_out(file_name, formt, html_content)
     return
-
-def generate_firewall_policies(firewall_summary, firewall_detail):
-    ret_fw = ''
-    
-    fw_count = ''    
-    fw_name = ''
-    fw_input_header = '\n\n###Input:'
-    fw_input = ''
-    fw_output_header = '\n\n###Output:'
-    fw_output= ''
-    
-    for entry in firewall_summary:
-        fw_count = entry['count']
-    
-    
 
 def generate_summary_content(cve, ncpkg, cpkg):
     ret_csm = ''
@@ -162,10 +142,24 @@ def generate_server_content(s):
     mdown_firewall = mdown_firewall + '\n\n###Firewall Summary:\n* In: ' + str(firewall_stats['in_rules']) + '\n* Out: ' + str(firewall_stats['out_rules']) + '\n* Log: ' + str(firewall_stats['log_rules'])
     mdown_sva = mdown_sva + '\n\n###Software Vulnerability Assessment Summary:\n* Critical: ' + str(sva_stats['critical']) + '\n* Non-critical: ' + str(sva_stats['non_critical'])
     mdown_csm = mdown_csm + str(md_render_csm(issues))
-    mdown_firewall = mdown_csm + str(md_render_firewall(issues))
+    mdown_firewall = mdown_firewall + str(md_render_firewall(issues))
     mdown_sva = mdown_sva + str(md_render_sva(issues))
     return(mdown_server, mdown_csm, mdown_firewall, mdown_sva)
 
+def generate_firewall_policies(firewall_summary, firewall_detail):
+    ret_fw = ''
+    
+    fw_count = ''    
+    fw_name = ''
+    fw_input_header = '\n\n###Input:'
+    fw_input = ''
+    fw_output_header = '\n\n###Output:'
+    fw_output= ''
+    
+    for entry in firewall_summary:
+        fw_count = entry['count']
+    
+    
 def md_render_csm(i):
     ret_md = ''
 #Gives us json, we give back beautiful text.
