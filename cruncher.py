@@ -37,9 +37,8 @@ def get_server_firewall_stats(server):
         print "dave"
         print firewall
         print "dave"
-#        rules = server.details[1]
-#        print rules
-        print "what"
+        print firewall.details[1]
+        print "why are there no rules?"
     except:
         print "error in  cruncher.get_server_firewall_stats"
     retval = {'in_rules':in_rules,
