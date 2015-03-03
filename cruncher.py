@@ -28,6 +28,25 @@ def get_server_csm_stats(server):
             'indeterminate':indeterminate}
     return(retval)
 
+def get_server_firewall_stats(server):
+    in_rules = 0
+    out_rules = 0
+    log_rules = 0
+    try:
+        firewall = server.name
+        print "dave"
+        print firewall
+        print "dave"
+#        rules = server.details[1]
+#        print rules
+        print "what"
+    except:
+        print "error in  cruncher.get_server_firewall_stats"
+    retval = {'in_rules':in_rules,
+              'out_rules':out_rules,
+              'log_rules':log_rules}
+    return(retval)
+
 def get_server_sva_stats(server):
     critical = 0
     non_critical = 0
@@ -46,29 +65,6 @@ def get_server_sva_stats(server):
     retval = {'critical':critical,
             'non_critical':non_critical}
     return(retval)
-
-def get_server_firewall_stats(servers):
-    all_cves = []
-    all_crit_pkgs = []
-    all_noncrit_pkgs = []
-    retval_cve = {}
-    retval_crit_pkg = {}
-    retval_noncrit_pkg = {}
-    for s in servers:
-        try:
-            id = []
-            firewall = s.issues
-            rules = s.details[1]
-            print "dave"
-            print firewall
-            print "dave"
-            print json.dumps(rules, indent = 2)
-        except:
-            continue
-    print "in cruncher"
-    print firewall_summary
-    print firewall_detail
-    return firewall_summary, firewall_detail
 
 def all_server_stats(servers):
     all_cves = []
