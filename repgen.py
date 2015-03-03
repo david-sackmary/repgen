@@ -23,15 +23,6 @@ def main(argv):
     serverolist = fn.build_server_list(config['host'], config['authtoken'], config['search_string'], config['search_field'], config['prox'])
     serverolist = fn.enrich_server_data(config['host'], config['authtoken'], serverolist, config['prox'])
 
-
-
-#    for s in serverolist:
-#        print s.issues
-
-
-
-
-
 # Here we re-write the config if the logo file is on the local filesystem, because relative paths don't work well with PDF rendering.
     if fn.where_is_img(config['logo_url'])[0] == 'local' and config['output'] == 'pdf':
         try:
