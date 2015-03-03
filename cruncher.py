@@ -66,6 +66,12 @@ def get_server_sva_stats(server):
     return(retval)
 
 def all_server_stats(servers):
+    all_cves = []
+    all_crit_pkgs = []
+    all_noncrit_pkgs = []
+    retval_cve = {}
+    retval_crit_pkg = {}
+    retval_noncrit_pkg = {}
     for s in servers:
         try:
             deadvar = s.issues['svm']['findings']
@@ -85,10 +91,6 @@ def all_server_stats(servers):
             deadvar = t.issues['svm']['findings']
         except:
             continue
-<<<<<<< HEAD
-    return firewall, rules
-
-=======
         for issue in t.issues['svm']['findings']:
             if issue['status'] == 'bad':
                 if issue['critical'] == True:
@@ -104,6 +106,5 @@ def all_server_stats(servers):
     for u_ncpkg in noncrit_pkgs_consolidated:
         retval_noncrit_pkg[str(u_ncpkg)] = all_noncrit_pkgs.count(str(u_ncpkg))
     return(retval_cve, retval_noncrit_pkg, retval_crit_pkg)
->>>>>>> f6b52f89bd462b263d8b9672397d8702d09889f1
 
 

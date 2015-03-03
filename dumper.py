@@ -83,14 +83,8 @@ def html(objex,prefix,formt,logo_url):
     masthead_complete = '#Software Vulnerability and Configuration Compliance Report\n##' + tstamp
     masthead_csm = '#Configuration Compliance Report\n##' + tstamp
     masthead_firewall = '#Firewall  Report\n##' + tstamp
-<<<<<<< HEAD
-    print "before cruncher"
-    cve_summary, ncrit_pkg_summary, crit_pkg_summary = cruncher.all_server_stats(objex)
-    print "after cruncher"
-=======
     masthead_sva = '#Software Vulnerability Report\n##' + tstamp
     cve_summary, ncrit_pkg_summary, crit_pkg_summary = cruncher.all_server_stats(objex)
->>>>>>> f6b52f89bd462b263d8b9672397d8702d09889f1
     summary_content = str(generate_summary_content(cve_summary, ncrit_pkg_summary, crit_pkg_summary))
 
     for s in objex:

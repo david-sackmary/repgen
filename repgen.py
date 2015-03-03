@@ -3,7 +3,7 @@
 import api
 import fn
 import sys
-import dumper_fw
+import dumper
 
 def main(argv):
     config = {}
