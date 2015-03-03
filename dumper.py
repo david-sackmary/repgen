@@ -56,8 +56,9 @@ def html(objex,prefix,formt,logo_url):
     raw_reports = {}
     tstamp = str(time.strftime("%Y-%m-%d %H:%M"))
     complete_contents = ''
-    sva_contents = ''
     csm_contents = ''
+    firewall_contents = ''
+    sva_contents = ''
     head = '''<html><head>
     <meta name="pdfkit-orientation" content="Landscape"/>
     <style>
@@ -94,12 +95,14 @@ def html(objex,prefix,formt,logo_url):
         firewall_summary = cruncher.get_server_firewall_stats(objex)
 
         complete_contents = complete_contents + str(str(server) + str(csm) + str(sva))
-        sva_contents = sva_contents + str(str(server) + str(sva))
         csm_contents = csm_contents + str(str(server) + str(csm))
+        firewall_contents = firewall_contents + str(str(server) + str(csm))
+        sva_contents = sva_contents + str(str(server) + str(sva))
     raw_reports['complete'] = str(logo + masthead_complete + str(summary_content) + str(complete_contents))
-    raw_reports['sva'] = str(logo + masthead_sva + str(summary_content) + str(sva_contents))
     raw_reports['csm'] =str(logo + masthead_csm + str(csm_contents))
-    for rtype in ['complete', 'sva', 'csm']:
+    raw_reports['firewall'] =str(logo + masthead_csm + str(firewall_contents))
+    raw_reports['sva'] = str(logo + masthead_sva + str(summary_content) + str(sva_contents))
+    for rtype in ['complete', 'csm', 'firewall', 'sva']:
         file_name = prefix + '-' + rtype
         html_content_from_md = markdown.markdown(raw_reports[rtype])
         html_content = str(head) + str(html_content_from_md) + str(closer)
