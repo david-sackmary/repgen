@@ -32,15 +32,49 @@ def get_server_firewall_stats(server):
     in_rules = 0
     out_rules = 0
     log_rules = 0
+    input_rules = []
+    output_rules = []
     try:
         firewall = server.name
         print "dave"
         print firewall
         print "dave"
-        print firewall.details[1]
-        print "why are there no rules?"
+	print server.details[3]
+	for i in range(len(server.details)):
+	    for entry in server.details[i]['firewall_policy']['firewall_rules']:
+		ret_rule = []
+		ret_rule.append(entry['active'])
+
+		if "firewall_interface" not in entry:
+		    ret_rule.append("any")
+		else:
+		    ret_rule.append(entry['firewall_interface']['name'])
+		if "firewall_source" not in entry:
+		    ret_rule.append("any")
+		else:
+		    ret_rule.append(entry['firewall_source']['name'])
+
+		if "firewall_service" not in entry:
+		    ret_rule.append("any")
+		else:
+		    ret_rule.append(entry['firewall_service']['name'])
+		ret_rule.append(entry['connection_states'])
+		ret_rule.append(entry['action'])
+		ret_rule.append(entry['log'])
+		ret_rule.append(entry['comment'])
+		print ret_rule
+		
+		if entry['chain'] == "INPUT":
+		    input_rules.append(ret_rule)
+		elif entry['chain'] == "OUTPUT":
+		    output_rules.append(ret_rule)
+	print "why are there no rules?"
+	print input_rules
     except:
         print "error in  cruncher.get_server_firewall_stats"
+	
+
+	
     retval = {'in_rules':in_rules,
               'out_rules':out_rules,
               'log_rules':log_rules}
